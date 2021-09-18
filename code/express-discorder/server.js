@@ -18,8 +18,8 @@ app.get("/", (req, res) => res.send(`
 `));
 
 app.post("/github", (req, res) => {
-  const content = ":wave: Hi mom!";
-  const avatarUrl = "https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif";
+  const content = `${req.body.sender.login} just starred ${req.body.repository.name} :man_dancing_tone3::dancer_tone3::man_dancing_tone3:`;
+  const avatarUrl = req.body.sender.avatar_url;
   axios
     .post(process.env.DISCORD_WEBHOOK_URL, {
       content: content,
@@ -32,7 +32,7 @@ app.post("/github", (req, res) => {
       ],
     })
     .then((discordResponse) => {
-      console.log("Success!");
+			console.log({discordResponse});
       res.status(204).send();
     })
     .catch((err) => console.error(`Error sending to Discord: ${err}`));
